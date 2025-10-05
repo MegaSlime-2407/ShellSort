@@ -1,0 +1,13 @@
+ArraySize,Algorithm,ExecutionTime(ns),Comparisons,Swaps
+100,Shell's Original,254584,0,0
+100,Knuth's,40583,0,0
+100,Sedgewick's,1590792,0,0
+100,Arrays.sort,886792,0,0
+500,Shell's Original,153583,0,0
+500,Knuth's,141875,0,0
+500,Sedgewick's,166542,0,0
+500,Arrays.sort,190875,0,0
+1000,Shell's Original,369167,0,0
+1000,Knuth's,321709,0,0
+1000,Sedgewick's,344709,0,0
+1000,Arrays.sort,232333,0,0
