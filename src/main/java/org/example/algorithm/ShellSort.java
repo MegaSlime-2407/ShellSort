@@ -17,6 +17,33 @@ public class ShellSort {
         }
     }
     
+    public static PerformanceResult shellSortOriginalWithMetrics(int[] arr) {
+        int n = arr.length;
+        long comparisons = 0;
+        long swaps = 0;
+        long startTime = System.nanoTime();
+        
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i++) {
+                int temp = arr[i];
+                int j;
+                for (j = i; j >= gap; j -= gap) {
+                    comparisons++;
+                    if (arr[j - gap] > temp) {
+                        arr[j] = arr[j - gap];
+                        swaps++;
+                    } else {
+                        break;
+                    }
+                }
+                arr[j] = temp;
+            }
+        }
+        
+        long endTime = System.nanoTime();
+        return new PerformanceResult(endTime - startTime, comparisons, swaps);
+    }
+    
     public static void shellSortKnuth(int[] arr) {
         int n = arr.length;
         int gap = 1;
@@ -38,6 +65,39 @@ public class ShellSort {
         }
     }
     
+    public static PerformanceResult shellSortKnuthWithMetrics(int[] arr) {
+        int n = arr.length;
+        long comparisons = 0;
+        long swaps = 0;
+        long startTime = System.nanoTime();
+        int gap = 1;
+        
+        while (gap < n / 3) {
+            gap = 3 * gap + 1;
+        }
+        
+        while (gap >= 1) {
+            for (int i = gap; i < n; i++) {
+                int temp = arr[i];
+                int j;
+                for (j = i; j >= gap; j -= gap) {
+                    comparisons++;
+                    if (arr[j - gap] > temp) {
+                        arr[j] = arr[j - gap];
+                        swaps++;
+                    } else {
+                        break;
+                    }
+                }
+                arr[j] = temp;
+            }
+            gap = (gap - 1) / 3;
+        }
+        
+        long endTime = System.nanoTime();
+        return new PerformanceResult(endTime - startTime, comparisons, swaps);
+    }
+    
     public static void shellSortSedgewick(int[] arr) {
         int n = arr.length;
         int[] gaps = generateSedgewickGaps(n);
@@ -53,6 +113,35 @@ public class ShellSort {
                 arr[j] = temp;
             }
         }
+    }
+    
+    public static PerformanceResult shellSortSedgewickWithMetrics(int[] arr) {
+        int n = arr.length;
+        long comparisons = 0;
+        long swaps = 0;
+        long startTime = System.nanoTime();
+        int[] gaps = generateSedgewickGaps(n);
+        
+        for (int k = gaps.length - 1; k >= 0; k--) {
+            int gap = gaps[k];
+            for (int i = gap; i < n; i++) {
+                int temp = arr[i];
+                int j;
+                for (j = i; j >= gap; j -= gap) {
+                    comparisons++;
+                    if (arr[j - gap] > temp) {
+                        arr[j] = arr[j - gap];
+                        swaps++;
+                    } else {
+                        break;
+                    }
+                }
+                arr[j] = temp;
+            }
+        }
+        
+        long endTime = System.nanoTime();
+        return new PerformanceResult(endTime - startTime, comparisons, swaps);
     }
     
     private static int[] generateSedgewickGaps(int n) {
@@ -93,5 +182,17 @@ public class ShellSort {
         int[] copy = new int[original.length];
         System.arraycopy(original, 0, copy, 0, original.length);
         return copy;
+    }
+    
+    public static class PerformanceResult {
+        public long executionTime;
+        public long comparisons;
+        public long swaps;
+        
+        public PerformanceResult(long executionTime, long comparisons, long swaps) {
+            this.executionTime = executionTime;
+            this.comparisons = comparisons;
+            this.swaps = swaps;
+        }
     }
 }
