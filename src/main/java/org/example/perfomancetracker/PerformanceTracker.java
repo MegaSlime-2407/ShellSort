@@ -237,6 +237,8 @@ public class PerformanceTracker {
         
         for (int k = gaps.length - 1; k >= 0; k--) {
             int gap = gaps[k];
+            if (gap <= 0) continue;
+            
             for (int i = gap; i < n; i++) {
                 int temp = arr[i];
                 int j;
@@ -265,10 +267,10 @@ public class PerformanceTracker {
             int gap1 = 9 * (int) Math.pow(4, k) - 9 * (int) Math.pow(2, k) + 1;
             int gap2 = (int) Math.pow(4, k + 1) - 3 * (int) Math.pow(2, k + 1) + 1;
             
-            if (gap1 < n) {
+            if (gap1 > 0 && gap1 < n) {
                 gaps.add(gap1);
             }
-            if (gap2 < n && gap2 != gap1) {
+            if (gap2 > 0 && gap2 < n && gap2 != gap1) {
                 gaps.add(gap2);
             }
             
@@ -276,6 +278,10 @@ public class PerformanceTracker {
                 break;
             }
             k++;
+        }
+        
+        if (gaps.isEmpty()) {
+            gaps.add(1);
         }
         
         return gaps.stream().mapToInt(i -> i).toArray();
